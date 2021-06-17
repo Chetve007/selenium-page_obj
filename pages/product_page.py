@@ -22,3 +22,11 @@ class ProductPage(BasePage):
         # price = self.browser.find_element(*ProductPageLocators.PRICE).text
         price_in_basket = self.browser.find_element(*ProductPageLocators.PRICE_IN_BASKET).text
         assert price == price_in_basket
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.BOOK_NAME_IN_BASKET), \
+            "Success message is presented, but should not be"
+
+    def should_be_disappeared_success_message(self):
+        assert self.is_disappeared(*ProductPageLocators.BOOK_NAME_IN_BASKET), \
+            "Success message is presented, but should be disappeared"
