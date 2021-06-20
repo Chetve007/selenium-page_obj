@@ -1,11 +1,6 @@
 from selenium.webdriver.common.by import By
 
 
-class MainPageLocators:
-    pass
-    # LOGIN_LINK = (By.CSS_SELECTOR, '#login_link')
-
-
 class LoginPageLocators:
     # Log in
     EMAIL_ADDR = (By.CSS_SELECTOR, '#id_login-username')

@@ -6,25 +6,22 @@ from pages.basket_page import BasketPage
 from pages.login_page import LoginPage
 from pages.product_page import ProductPage
 
-# LINK = 'http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders-handbook_209/?promo=newYear'
 LINK = 'http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019'
 LINK_WITHOUT_PROMO = 'http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207/'
 NEW_LINK = 'http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/'
 LINK_BE = "http://selenium1py.pythonanywhere.com/"
 
 
-# @pytest.mark.login
-# class TestLoginFromProductPage():
-#     @pytest.fixture(scope="function", autouse=True)
-#     def setup(self):
-#         self.product = ProductFactory(title = "Best book created by robot")
-#         # создаем по апи
-#         self.link = self.product.link
-#         yield
-#         # после этого ключевого слова начинается teardown
-#         # выполнится после каждого теста в классе
-#         # удаляем те данные, которые мы создали
-#         self.product.delete()
+@pytest.mark.need_review
+def test_guest_can_add_product_to_basket(browser):
+    page = ProductPage(browser, LINK)
+    page.open()
+    page.add_product_to_basket()
+    page.solve_quiz_and_get_code()
+    book_name = page.get_book_name()
+    price = page.get_price()
+    page.should_be_book_name_the_same_in_basket(book_name)
+    page.should_be_price_the_same_in_basket(price)
 
 
 @pytest.mark.parametrize('link', ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
@@ -73,6 +70,7 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page.should_be_login_link()
 
 
+@pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page(browser):
     page = ProductPage(browser, NEW_LINK)
     page.open()
@@ -81,6 +79,7 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     login_page.should_be_login_page()
 
 
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     page = ProductPage(browser, LINK_BE)
     page.open()
@@ -111,6 +110,7 @@ class TestUserAddToBasketFromProductPage:
         page.open()
         page.should_not_be_success_message()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
         page = ProductPage(browser, LINK)
         page.open()
